@@ -1,10 +1,16 @@
+import { useDispatch } from "react-redux";
+import { deleteContact } from "../../redux/contactsSlice";
+import { FaUser, FaPhoneAlt } from "react-icons/fa";
+
 import clsx from "clsx";
 import s from "./Contact.module.css";
 
-import { FaUser, FaPhoneAlt } from "react-icons/fa";
-
-export default function Contact({ contact, onDelete }) {
+export default function Contact({ contact }) {
   const { name, number, id } = contact;
+  const dispatch = useDispatch();
+
+  const handleDelete = () => dispatch(deleteContact(id));
+
   return (
     <div className={clsx(s.contactCard)}>
       <div className={clsx(s.contactItems)}>
@@ -12,12 +18,12 @@ export default function Contact({ contact, onDelete }) {
           <FaUser className={clsx(s.userIcon)} />
           {name}
         </p>
-        <tel className={clsx(s.userTel)}>
+        <a href={`tel:${number}`} className={clsx(s.userTel)}>
           <FaPhoneAlt className={clsx(s.telIcon)} />
           {number}
-        </tel>
+        </a>
       </div>
-      <button className={clsx(s.delBtn)} onClick={() => onDelete(id)}>
+      <button className={clsx(s.delBtn)} onClick={handleDelete}>
         Delete
       </button>
     </div>
